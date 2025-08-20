@@ -1,0 +1,9 @@
+agno
+ipykernel
+python-dotenv
+groq
+openai
+tavily-python
+sqlalchemy
+fastapi
+uvicorn

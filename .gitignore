@@ -1,0 +1,20 @@
+# Ignora arquivos de configuração de ambiente
+.env
+
+# Ignora a pasta de cache do Python
+__pycache__/
+
+# Ignora a pasta de configurações do VS Code
+.vscode/
+
+# Ignora a pasta de arquivos temporários
+tmp/
+
+# Ignora os arquivos de log ou temporários gerados pelo sistema
+*.log
+*.tmp
+*.temp
+
+# Ignora os arquivos que seu sistema operacional cria
+.DS_Store
+Thumbs.db
