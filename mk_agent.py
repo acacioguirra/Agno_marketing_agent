@@ -10,6 +10,7 @@ from agno.memory.db.sqlite import SqliteMemoryDb
 from agno.storage.sqlite import SqliteStorage
 #Interface
 from agno.playground import Playground
+import streamlit as st
 #Carregar API
 from dotenv import load_dotenv,find_dotenv
 load_dotenv(find_dotenv())
@@ -40,11 +41,33 @@ copywriter = Agent(
     instructions=open("prompts/copywriter.md").read()
 )
 
-playground = Playground(
-     agents=[
-          copywriter
-          ],)
-app = playground.get_app()
+def interface():
+    st.header('Bem-vindo ao seu Agent de Marketing!', divider=True)
+
+    if 'chat_history' not in st.session_state:
+        st.session_state.chat_history = []
+    
+    for chat in st.session_state.chat_history:
+        with st.chat_message(chat['role']):
+            st.markdown(chat['content'])
+    
+    if user_iput := st.chat_input("Digite sua mensagem"):
+        st.session_state.chat_history.append({'role': 'user', 'content': user_iput})
+        with st.chat_message('user'):
+            st.markdown(user_iput)
+
+        with st.chat_message("assistant"):
+            with st.spinner("Duba está pensando..."):
+                agent_response = copywriter.run(user_iput, markdown=True)
+                finally_response = agent_response.content     
+                st.markdown(finally_response)
+        st.session_state.chat_history.append({'role': 'assistant', 'content': finally_response})
+
+#playground = Playground(
+     #agents=[
+          #copywriter
+          #],)
+#app = playground.get_app()
 
 if __name__ == "__main__":
-     playground.serve("mk_agent:app", reload=True)
+    interface()
